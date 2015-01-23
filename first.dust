@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="dust-full-0.3.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      // JSON response from server 
+      var json_object = { "profile_skill": "Profile Skill",
+          "skills": [
+                { "name": "JavaScript"  },
+                { "name": "Ruby" },
+                { "name": "Java" }
+          ]
+      }
+      // render method
+      dustRender = function(){
+        // Get the dust html template to dust compile
+        var dust_tag = $('#page').html() ; 
+        var compiled = dust.compile(dust_tag, "tmp_skill");
+        //load templates
+        dust.loadSource(compiled);
+        //Renders the named template and calls callback on completion. context may be a plain object or an instance of dust.Context.
+        dust.render("tmp_skill", json_object, function(err, html_out) {
+        //HTML output
+          $('#page').html(html_out);
+        });
+      }();
+    });
+  </script>
+</head>
+<body>
+  <h1>Dust templates in the browser</h1>
+  <div id="page"> 
+    {profile_skill}
+    <ul> 
+      {#skills} 
+        <li> {name} </li> 
+      {/skills}
+    </ul>
+  </div>
+</body>
+</html>
